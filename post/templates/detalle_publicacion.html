@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>{{ publicacion.titulo }}</h2>
+    <p>Autor: {{ publicacion.autor }}</p>
+    <p>Fecha de publicación: {{ publicacion.fecha_publicacion|date:"d/m/Y" }}</p>
+    <p>{{ publicacion.contenido }}</p>
+
+    <!-- Mostrar el botón de eliminar y editar solo si el usuario autenticado es el autor -->
+    {% if user == publicacion.autor %}
+    <a href="{% url 'post:editar_publicacion' publicacion.id %}" class="btn btn-primary">Editar</a>
+    <form action="{% url 'post:eliminar_publicacion' publicacion.id %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <input type="submit" value="Eliminar" class="btn btn-danger" onclick="return confirm('¿Seguro que quieres eliminar esta publicación?');">
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

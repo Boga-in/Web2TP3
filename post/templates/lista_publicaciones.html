@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Publicaciones{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Lista de Publicaciones</h1>
+    
+    {% if publicaciones %}
+        <div class="row">
+            {% for publicacion in publicaciones %}
+                <div class="col-md-4 mb-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ publicacion.titulo }}</h5>
+                            <p class="card-text"><strong>Fecha:</strong> {{ publicacion.fecha_publicacion|date:"d M Y" }}</p>
+                            <p class="card-text"><strong>Autor:</strong> {{ publicacion.autor.username }}</p>
+                            <a href="{% url 'post:detalle_publicacion' publicacion.id %}" class="btn btn-primary btn-sm">Ver</a>
+                            {% if publicacion.autor == user %}
+                                <a href="{% url 'post:editar_publicacion' publicacion.id %}" class="btn btn-warning btn-sm">Editar</a>
+                                <a href="{% url 'post:eliminar_publicacion' publicacion.id %}" class="btn btn-danger btn-sm">Eliminar</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:3 %}
+                    </div><div class="row">
+                {% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">No hay publicaciones disponibles.</p>
+    {% endif %}
+</div>
+{% endblock %}

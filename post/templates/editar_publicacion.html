@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Publicación{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Editar Publicación</h1>
+    
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Guardar Cambios</button>
+    </form>
+    
+    <a href="{% url 'post:detalle_publicacion' publicacion.id %}" class="btn btn-info mt-3">Ver Publicación</a>
+</div>
+{% endblock %}
